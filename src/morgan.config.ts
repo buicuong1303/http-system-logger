@@ -2,8 +2,16 @@ import morgan from 'morgan'
 import logger from './winston.config'
 import { Request, Response } from 'express'
 import * as uuid from 'uuid'
+
+const ignoredRoutes = (process.env.IGNORED_ROUTES || '/api/health')
+  .split(',')
+  .map((route) => route.trim()); // Load ignored routes from environment variables
+
 const morganMiddleware = morgan(
   function (tokens: any, req: Request, res: Response) {
+    if (ignoredRoutes.includes(req.path)) {
+      return null; // Skip logging for ignored routes
+    }
     return JSON.stringify({
       method: tokens.method(req, res),
       url: tokens.url(req, res),
@@ -20,7 +28,9 @@ const morganMiddleware = morgan(
     stream: {
       // Configure Morgan to use our custom logger with the http severity
       write: (message) => {
-        logger.http(message, { context: 'HttpContext' })
+        if (message) {
+          logger.http(message, { context: 'HttpContext' })
+        }
       },
     },
   },

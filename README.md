@@ -8,6 +8,7 @@ A lightweight and configurable logging library for Node.js applications, built w
 - HTTP request logging using `morgan`.
 - Customizable log levels and formats.
 - Supports structured JSON logs for better integration with log management systems.
+- Ability to ignore logs from specific routes.
 
 ## Installation
 
@@ -67,6 +68,18 @@ app.listen(3000, () => {
 });
 ```
 
+### Ignoring Specific Routes
+
+You can configure the logger to ignore specific routes by setting the `IGNORED_ROUTES` environment variable. Provide a comma-separated list of routes to ignore.
+
+#### Example:
+
+```bash
+export IGNORED_ROUTES=/api/health,/api/skip
+```
+
+In this example, requests to `/api/health` and `/api/skip` will not be logged.
+
 ### Environment Variables
 
 You can configure the logger using the following environment variables:
@@ -78,5 +91,6 @@ You can configure the logger using the following environment variables:
 | `LOG_MAX_FILES`    | `7d`          | Maximum number of log files to retain.          |
 | `LOG_FILE_NAME`    | `application` | Base name for log files.                        |
 | `SERVICE_NAME`     | `logger`      | Default service name included in log metadata.  |
+| `IGNORED_ROUTES`   | `/api/health` | Comma-separated list of routes to ignore.       |
 
 
