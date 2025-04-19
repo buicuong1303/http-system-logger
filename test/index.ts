@@ -4,6 +4,7 @@ import { httpLogger, Logger } from '../src';
 const app = express();
 const logger = new Logger('TestApp');
 
+
 // Middleware to parse JSON requests
 app.use(express.json());
 

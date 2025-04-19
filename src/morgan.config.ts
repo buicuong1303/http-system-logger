@@ -1,7 +1,7 @@
-import morgan from 'morgan'
-import logger from './winston.config'
-import { Request, Response } from 'express'
-import * as uuid from 'uuid'
+import morgan from 'morgan';
+import { getLogger } from './winston.config';
+import { Request, Response } from 'express';
+import * as uuid from 'uuid';
 
 const ignoredRoutes = (process.env.IGNORED_ROUTES || '/api/health')
   .split(',')
@@ -22,17 +22,17 @@ const morganMiddleware = morgan(
       use_agent: tokens['user-agent'](req, res),
       request_body: req.body,
       id: tokens.req(req, res, 'x-request-id') || uuid.v4(),
-    })
+    });
   },
   {
     stream: {
       // Configure Morgan to use our custom logger with the http severity
       write: (message) => {
         if (message) {
-          logger.http(message, { context: 'HttpContext' })
+          getLogger().http(message, { context: 'HttpContext' });
         }
       },
     },
   },
-)
-export default morganMiddleware
+);
+export default morganMiddleware;

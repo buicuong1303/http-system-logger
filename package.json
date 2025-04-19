@@ -1,6 +1,6 @@
 {
   "name": "http-system-logger",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A lightweight and configurable logging library for Node.js applications, built with winston and morgan.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
