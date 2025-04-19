@@ -3,7 +3,11 @@ import { getLogger } from './winston.config';
 export class Logger {
   private readonly logger = getLogger();
 
-  constructor(private readonly context: string) {}
+  constructor(private context: string) {}
+  
+  setContext(context: string) {
+    this.context = context;
+  }
 
   info(message: string, context?: string) {
     this.logger.info(message, { context: context || this.context });

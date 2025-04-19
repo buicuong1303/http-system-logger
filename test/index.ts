@@ -13,6 +13,7 @@ app.use(httpLogger);
 
 // Test route
 app.get('/api/test', (req, res) => {
+  logger.setContext('TestRoute');
   logger.info('Test route accessed');
   res.send('Test route is working!');
 });
