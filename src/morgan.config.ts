@@ -9,7 +9,13 @@ const ignoredRoutes = (process.env.IGNORED_ROUTES || '/api/health')
 
 const morganMiddleware = morgan(
   function (tokens: any, req: Request, res: Response) {
-    if (ignoredRoutes.includes(req.path)) {
+    if (ignoredRoutes.some(route => {
+      if (!route.includes('*')) {
+        return req.path === route; // Exact match for non-wildcard routes
+      }
+      const regex = new RegExp(route.replace('*', '.*'));
+      return regex.test(req.path);
+    })) {
       return null; // Skip logging for ignored routes
     }
     return JSON.stringify({
