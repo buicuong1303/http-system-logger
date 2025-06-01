@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import { httpLogger, Logger } from '../src';
 
@@ -20,11 +21,17 @@ app.get('/api/test', (req, res) => {
 
 // Ignored route
 app.get('/api/health', (req, res) => {
-  res.send('Health check route');
+  console.log('eeeee')
+  res.send('Health check route new');
 });
 
+
+app.get('/api/v1/files/video/:id', (req, res) => {
+  console.log(process.env.IGNORED_ROUTES);
+  res.send('Dynamic route');
+});
 // Start the server
-const PORT = 3000;
+const PORT = 8000;
 app.listen(PORT, () => {
   logger.info(`Test server is running on http://localhost:${PORT}`);
 });
